@@ -1,33 +1,8 @@
 '''VERSAO 1.2'''
 
 aliquotas = {
-    "AC": 19.0,
-    "AL": 19.0,
-    "AP": 18.0,
-    "AM": 20.0,
-    "BA": 20.5,
-    "CE": 20.0,
-    "DF": 20.0,
-    "ES": 17.0,
-    "GO": 19.0,
-    "MA": 22.0,
-    "MG": 18.0,
-    "MS": 17.0,
-    "MT": 17.0,
-    "PA": 19.0,
-    "PB": 20.0,
-    "PE": 20.5,
-    "PI": 21.0,
-    "PR": 19.5,
-    "RJ": 20.0,
-    "RN": 18.0,
-    "RS": 17.0,
-    "RO": 19.5,
-    "RR": 20.0,
-    "SC": 17.0,
-    "SE": 19.0,
-    "SP": 18.0,
-    "TO": 20.0
+    "AC": 19.0,"AL": 19.0,"AP": 18.0,"AM": 20.0,"BA": 20.5,"CE": 20.0,"DF": 20.0,"ES": 17.0,"GO": 19.0,"MA": 22.0,"MG": 18.0,"MS": 17.0,"MT": 17.0,"PA": 19.0,
+    "PB": 20.0,"PE": 20.5,"PI": 21.0,"PR": 19.5,"RJ": 20.0,"RN": 18.0,"RS": 17.0,"RO": 19.5,"RR": 20.0,"SC": 17.0,"SE": 19.0,"SP": 18.0,"TO": 20.0
 }
 #---------------------------------- Inicio Validação Valor Produto----------------------------------------------#
 vlr_produto = input('Digite o valor do produto (já com frete, seguro e outras despesas Inclusas): ')
@@ -87,13 +62,11 @@ if tip_icms == "normal":
 
 #---------------------------------Calculo do Icms ST-----------------------------------------------------#
 elif tip_icms == "st":
-    tip_operacao = input("é uma operação estadual (e) ou interestadual (i)? ").lower()
+    tip_operacao = input("é uma operação estadual (e) ou interestadual (i)? ").lower()[0]
     
-    while True:
-        if (tip_operacao == '') and (tip_operacao != 'e') and (tip_operacao != 'i'):
-            tip_operacao = input('digite o tipo de operação: ')
-        else:
-            break
+    '''while True:
+        if tip_operacao == '' and tip_operacao != 'e' and tip_operacao != 'i':
+            tip_operacao = input('digite o tipo de operação: ')y'''
     #-----------------------------Calculo Op Int----------------------------------------#
     if tip_operacao == 'e':
         aliq_icms = float(input('Digite o estado: '))
