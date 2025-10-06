@@ -1,0 +1,123 @@
+'''VERSAO 1.3'''
+aliquotas = {
+    "AC": 19.0,"AL": 19.0,"AP": 18.0,"AM": 20.0,"BA": 20.5,"CE": 20.0,"DF": 20.0,"ES": 17.0,"GO": 19.0,"MA": 22.0,"MG": 18.0,"MS": 17.0,"MT": 17.0,"PA": 19.0,
+    "PB": 20.0,"PE": 20.5,"PI": 21.0,"PR": 19.5,"RJ": 20.0,"RN": 18.0,"RS": 17.0,"RO": 19.5,"RR": 20.0,"SC": 17.0,"SE": 19.0,"SP": 18.0,"TO": 20.0
+}
+
+from time import sleep
+mva = 40
+#---------------------------------- Inicio Validação Valor Produto----------------------------------------------#
+while True:
+    vlr_produto = input('Digite o valor do produto (já com frete, seguro e outras despesas Inclusas): ')
+
+    while True:
+        if vlr_produto.strip() == "":
+            vlr_produto = input("Digite um valor válido: ")
+            continue
+
+        try:
+            vlr_produto = float(vlr_produto) 
+            break  # sai do while se a conversão deu certo
+        except ValueError:
+            vlr_produto = input("Digite um valor válido: ")
+
+    #---------------------------------- Inicio Validação tipo do icms ------------------------------------------#
+    print('|--------------------------------------------|\n'
+          '| Calculos Disponiveis:                       |\n'
+          '|    Normal (sem redução);                    |\n'
+          '|    ICMS-ST para dentro e fora do estado     |\n'
+          '|--------------------------------------------|\n')
+    sleep(1)
+    
+    tip_icms = input('Digite o tipo de ICMS (normal ou st): ').lower()
+
+    while tip_icms != 'normal' and tip_icms != 'st':
+        tip_icms = input(f'{tip_icms} não é valido! digite "NORMAL" ou "ST": ').lower()      
+
+    #---------------------------------Calculo do Icms "Normal"-----------------------------------------------#
+    '''no momento vai ser só para operações estaduais'''
+    if tip_icms == "normal":
+        aliq_icms = input("digite o estado da operação (sigla): ").upper()
+        while True:
+            if aliq_icms == '':
+                aliq_icms = input('por favor digite o seu estado: ').upper()
+                continue
+            elif aliq_icms in aliquotas:
+                aliq_icms = aliquotas[aliq_icms]
+                break
+            else: 
+                aliq_icms = input('Estado invalido! Digite novamente: ')
+        calc_icms = (vlr_produto * (aliq_icms / 100))
+        print(f'Base ICMS: {vlr_produto}\n'
+            f'Aliquota ICMS: {aliq_icms}\n'
+            f'valor ICMS: {calc_icms}\n')
+
+    #---------------------------------Calculo do Icms ST-----------------------------------------------------#
+    elif tip_icms == "st":
+
+        tip_operacao = input("é uma operação estadual (e) ou interestadual (i)? ").lower()
+        
+        while tip_operacao not in ['e','i']:
+            tip_operacao = input('digite o tipo de operação: ')
+        #-----------------------------Calculo Op Int----------------------------------------#
+        match tip_operacao:
+            case 'e':
+                aliq_icms = input('Digite o estado: ').upper()
+                while aliq_icms not in aliquotas:
+                    aliq_icms = input('Digite seu estado corretamente: ').upper()
+                aliq_icms = aliquotas[aliq_icms]
+                #mva = int(input("Digite o valor do MVA: "))
+                base_calculo = (vlr_produto * (1+(mva/100)))
+                icms_pres = base_calculo * (aliq_icms/100)
+                icms_prop = vlr_produto * (aliq_icms/100)
+                icms_st = icms_pres - icms_prop
+                print('=============================================================================================')
+                print(f'           valor total dos produtos: {vlr_produto}\n'
+                    f'           valor do icms: {icms_pres}\n'
+                    f'           valor da st: {icms_st}\n'
+                    f'           valor total da nota: {vlr_produto+icms_st}')
+                print('=============================================================================================')
+        #-----------------------------Calculo Op Int----------------------------------------#
+        match tip_operacao:
+            case 'i':
+                aliq_interna = input('Digite o estado de destino: ').upper()
+                while aliq_interna not in aliquotas:
+                    aliq_interna = input('por favor digite o seu estado: ').upper()
+                
+                aliq_interna = aliquotas[aliq_interna]
+                        
+                aliq_interestadual = float(input('Digite a aliquota do estado de origem: '))
+                while True:
+                    if aliq_interestadual == '':
+                        aliq_interestadual = input(f'aliquota não pode estar vazia! digite um valor valido: ')
+                        continue
+                    try:
+                        aliq_interestadual = float(aliq_interestadual)
+                        break
+                    except ValueError:
+                        aliq_interestadual = input(f'{aliq_interestadual} não é valido! digite um valor valido: ')
+                #mva = int(input("Digite o valor do MVA: "))
+                base_calculo = (vlr_produto * (1+(mva/100)))
+                icms_pres = base_calculo * (aliq_interna/100)
+                icms_prop = vlr_produto * (aliq_interestadual/100)
+                icms_st = icms_pres - icms_prop
+                print('=============================================================================================')
+                print(f'         valor total dos produtos: {vlr_produto}\n'
+                    f'           valor do icms: {icms_pres}\n'
+                    f'           valor da st: {icms_st}\n'
+                    f'           valor total da nota: {vlr_produto+icms_st}')
+                print('=============================================================================================')
+            
+    continua = input('deseja fazer novo calculo? [S] ou [N]: ').upper()
+    while continua not in ['S', 'N']:
+        continua = input('deseja fazer novo calculo? [S] ou [N]: ').upper()
+    else:
+        if continua != 'S':
+            break
+
+print('Programa encerrado!')
+
+x = 1
+y = 2
+
+print (x) if x >= y else ...
