@@ -116,8 +116,3 @@ while True:
             break
 
 print('Programa encerrado!')
-
-x = 1
-y = 2
-
-print (x) if x >= y else ...
