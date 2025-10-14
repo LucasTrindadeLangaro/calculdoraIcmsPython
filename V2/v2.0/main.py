@@ -273,6 +273,7 @@ def EscolheTipoCalculo():
                         
                         # Alíquota interestadual (simplificado - normalmente é 4%, 7% ou 12%)
                         aliq_interestadual = 12.0
+                        #aqui eu preciso aplicar a regra das regiões. posso criar um IF direto ou criar um excel
                         
                         # Cálculo ICMS ST Interestadual
                         icms_origem = vlr_prod * (aliq_interestadual/100)
